@@ -3,8 +3,8 @@
 /**
 * Widget for displaying Portfolio items
 *
-* This file is read by WordPress, 
-* it contains actions that starts the plugin and also the main core class.
+* This file is read by WordPress, it contains actions that starts 
+* the plugin and also the main core class.
 *
 * LICENSE: http://opensource.org/licenses/MIT
 *
@@ -37,7 +37,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Register our widget when widgets init
  */
 add_action('widgets_init', create_function('', 
-    'return register_widget("portfolio_widget_plugin");'
+    'return register_widget("Portfolio_widget_plugin");'
 ));
 
 /**
@@ -57,12 +57,27 @@ function create_post_type() {
     );
 }
 
-class Portfolio_widget_plugin extends WP_Widget {
+/**
+ * The core plugin class.
+ *
+ * This is used to define internationalization, admin-specific hooks, and
+ * public-facing site hooks.
+ *
+ * Also maintains the unique identifier of this plugin as well as the current
+ * version of the plugin.
+ *
+ * @since      1.0.0
+ * @package    Portfolio_Widget_Plugin
+ * @subpackage Widget
+ * @author     Jimmi Elofsson <contact@jimmi.eu>
+ */
+class Portfolio_widget_plugin extends WP_Widget 
+{
 
 	/**
      * Constructor
      */
-    function __construct() 
+    public function __construct() 
     {
         parent::WP_Widget(false, $name = __(
             'Portfolio Widget Plugin', 
@@ -72,8 +87,10 @@ class Portfolio_widget_plugin extends WP_Widget {
 
 	/**
      * Create the widget form in the administration
+     * 
+     * @param array $instance
      */
-	function form($instance) 
+	public function form($instance) 
     {	
         // check value
         $number = ($instance) ? esc_attr($instance['number']) : 5;
@@ -83,8 +100,13 @@ class Portfolio_widget_plugin extends WP_Widget {
 
 	/**
      * Save widget data during edition
+     *
+     * @param array $new_instance
+     * @param array $old_instance
+     *
+     * @return array
      */
-	function update($new_instance, $old_instance) 
+	public function update($new_instance, $old_instance) 
     {
         // get old instance
 		$instance = $old_instance;
@@ -96,8 +118,11 @@ class Portfolio_widget_plugin extends WP_Widget {
 
 	/**
      * Display the widget content on the front-end
+     *
+     * @param array $args
+     * @param array $instance
      */
-	function widget($args, $instance) 
+	public function widget($args, $instance) 
     {
         /* ... */
 	}
