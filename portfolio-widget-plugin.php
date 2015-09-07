@@ -43,12 +43,12 @@ add_action('widgets_init', create_function('',
 /**
  * Create our new post type when we init
  */
-add_action( 'init', 'create_post_type' );
+add_action('init', 'create_post_type');
 function create_post_type() {
-    register_post_type( 'pwp_portfolio',
+    register_post_type( 'portfolio',
         array(
             'labels' => array(
-            'name' => __( 'Portfolio' ),
+            'name' => __( 'Portfolios' ),
             'singular_name' => __( 'Portfolio' )
         ),
             'public' => true,
@@ -68,7 +68,7 @@ function create_post_type() {
  *
  * @since      1.0.0
  * @package    Portfolio_Widget_Plugin
- * @subpackage Widget
+ * @subpackage Portfolio_Widget_Plugin/Core
  * @author     Jimmi Elofsson <contact@jimmi.eu>
  */
 class Portfolio_widget_plugin extends WP_Widget 
@@ -124,6 +124,30 @@ class Portfolio_widget_plugin extends WP_Widget
      */
 	public function widget($args, $instance) 
     {
-        /* ... */
+        extract($args);
+        
+        // widget options
+        $number = ( ! empty($instance['number'])) ? 
+                      absint($instance['number']) : 5;
+        
+        // widget query
+        $p = new WP_Query( apply_filters('widget_posts_args', 
+                                         array('posts_per_page' => $number, 
+                                               'post_type' => 'portfolio',
+                                               'no_found_rows' => true, 
+                                               'post_status' => 'publish', 
+                                               'ignore_sticky_posts' => true
+        )));
+        
+        if ($p->have_posts()) {
+            echo $before_widget;
+            // each post
+            while($p->have_posts()) {
+                $p->the_post();
+                // Display the post
+                include('View/PublicPost.php');    
+            }
+            echo $after_widget;
+        }
 	}
 }
