@@ -1,30 +1,30 @@
 <?php
 
 /**
-* Widget for displaying Portfolio items
-*
-* This file is read by WordPress, it contains actions that starts 
-* the plugin and also the main core class.
-*
-* LICENSE: http://opensource.org/licenses/MIT
-*
-* @category   WP_Plugin
-* @package    Portfolio_Widget_Plugin
-* @subpackage Widget
-* @copyright  Copyright (c) 2015 Jimmi Elofsson <contact@jimmi.eu>
-* @license    http://opensource.org/licenses/MIT   MIT License
-* @version    $Id:$
-* @link       https://github.com/jelofsson
-* @since      Version 1.0.0
-*
-* @wordpress-plugin
-* Plugin Name: Portfolio Widget Plugin
-* Description: Publish and display portfolio items
-* Version: 1.0.0
-* Author: Jimmi Elofsson
-* Author URI: http://www.jimmi.eu/
-* License: MIT
-*/
+ * Widget for displaying Portfolio items
+ *
+ * This file is read by WordPress, it contains actions that starts 
+ * the plugin and also the main core class.
+ *
+ * LICENSE: http://opensource.org/licenses/MIT
+ *
+ * @category   WP_Plugin
+ * @package    Portfolio_Widget_Plugin
+ * @subpackage Portfolio_Widget_Plugin/Core
+ * @copyright  Copyright (c) 2015 Jimmi Elofsson <contact@jimmi.eu>
+ * @license    http://opensource.org/licenses/MIT   MIT License
+ * @version    $Id:$
+ * @link       https://github.com/jelofsson
+ * @since      Version 1.0.0
+ *
+ * @wordpress-plugin
+ * Plugin Name: Portfolio Widget Plugin
+ * Description: Publish and display portfolio items
+ * Version: 1.0.0
+ * Author: Jimmi Elofsson
+ * Author URI: http://www.jimmi.eu/
+ * License: MIT
+ */
 
 /*
  * If this file is called directly, abort.
