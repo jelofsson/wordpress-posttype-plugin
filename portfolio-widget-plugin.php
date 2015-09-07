@@ -1,16 +1,17 @@
 <?php
 
 /**
- * Widget for displaying Portfolio items
+ * The plugin bootstrap file
  *
- * This file is read by WordPress, it contains actions that starts 
- * the plugin and also the main core class.
+ * This file is read by WordPress to generate the plugin information in the plugin
+ * admin area. This file also includes all of the dependencies used by the plugin,
+ * and creates a instance of the core plugin class.
  *
  * LICENSE: http://opensource.org/licenses/MIT
  *
  * @category   WP_Plugin
  * @package    Portfolio_Widget_Plugin
- * @subpackage Portfolio_Widget_Plugin/Core
+ * @subpackage Portfolio_Widget_Plugin/Bootstrap
  * @copyright  Copyright (c) 2015 Jimmi Elofsson <contact@jimmi.eu>
  * @license    http://opensource.org/licenses/MIT   MIT License
  * @version    $Id:$
@@ -29,125 +30,12 @@
 /*
  * If this file is called directly, abort.
  */
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'WPINC' )) {
 	die;
 }
 
 /**
- * Register our widget when widgets init
+ * Loading the core class of our plugin, located in Plugin.php
  */
-add_action('widgets_init', create_function('', 
-    'return register_widget("Portfolio_widget_plugin");'
-));
-
-/**
- * Create our new post type when we init
- */
-add_action('init', 'create_post_type');
-function create_post_type() {
-    register_post_type( 'portfolio',
-        array(
-            'labels' => array(
-            'name' => __( 'Portfolios' ),
-            'singular_name' => __( 'Portfolio' )
-        ),
-            'public' => true,
-            'has_archive' => true,
-        )
-    );
-}
-
-/**
- * The core plugin class.
- *
- * This is used to define internationalization, admin-specific hooks, and
- * public-facing site hooks.
- *
- * Also maintains the unique identifier of this plugin as well as the current
- * version of the plugin.
- *
- * @since      1.0.0
- * @package    Portfolio_Widget_Plugin
- * @subpackage Portfolio_Widget_Plugin/Core
- * @author     Jimmi Elofsson <contact@jimmi.eu>
- */
-class Portfolio_widget_plugin extends WP_Widget 
-{
-
-	/**
-     * Constructor
-     */
-    public function __construct() 
-    {
-        parent::WP_Widget(false, $name = __(
-            'Portfolio Widget Plugin', 
-            'portfolio_widget_plugin'
-        ));
-	}
-
-	/**
-     * Create the widget form in the administration
-     * 
-     * @param array $instance
-     */
-	public function form($instance) 
-    {	
-        // check value
-        $number = ($instance) ? esc_attr($instance['number']) : 5;
-        // output form
-        include('View/Form.php');
-	}
-
-	/**
-     * Save widget data during edition
-     *
-     * @param array $new_instance
-     * @param array $old_instance
-     *
-     * @return array
-     */
-	public function update($new_instance, $old_instance) 
-    {
-        // get old instance
-		$instance = $old_instance;
-        // set instance value
-        $instance['number'] = strip_tags($new_instance['number']);
-
-        return $instance;
-	}
-
-	/**
-     * Display the widget content on the front-end
-     *
-     * @param array $args
-     * @param array $instance
-     */
-	public function widget($args, $instance) 
-    {
-        extract($args);
-        
-        // widget options
-        $number = ( ! empty($instance['number'])) ? 
-                      absint($instance['number']) : 5;
-        
-        // widget query
-        $p = new WP_Query( apply_filters('widget_posts_args', 
-                                         array('posts_per_page' => $number, 
-                                               'post_type' => 'portfolio',
-                                               'no_found_rows' => true, 
-                                               'post_status' => 'publish', 
-                                               'ignore_sticky_posts' => true
-        )));
-        
-        if ($p->have_posts()) {
-            echo $before_widget;
-            // each post
-            while($p->have_posts()) {
-                $p->the_post();
-                // Display the post
-                include('View/PublicPost.php');    
-            }
-            echo $after_widget;
-        }
-	}
-}
+require plugin_dir_path( __FILE__ ) . 'Plugin.php';
+$plugin = new Plugin();
