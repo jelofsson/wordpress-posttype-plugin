@@ -16,7 +16,7 @@ class Portfolio_widget_plugin extends WP_Widget {
     */
     function __construct() 
     {
-        /* ... */
+        parent::WP_Widget(false, $name = __('Portfolio Widget Plugin', 'portfolio_widget_plugin'));
 	}
 
 	/*
@@ -48,7 +48,7 @@ class Portfolio_widget_plugin extends WP_Widget {
 /*
 * Register our widget when widgets init
 */
-add_action('widgets_init', create_function('', 'return register_widget("wp_my_plugin");'));
+add_action('widgets_init', create_function('', 'return register_widget("portfolio_widget_plugin");'));
 
 /*
 * Create our new post type when we init
@@ -58,7 +58,7 @@ function create_post_type() {
     register_post_type( 'pwp_portfolio',
         array(
             'labels' => array(
-            'name' => __( 'Portfolio Items' ),
+            'name' => __( 'Portfolio' ),
             'singular_name' => __( 'Portfolio' )
         ),
             'public' => true,
