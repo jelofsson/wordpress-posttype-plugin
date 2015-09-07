@@ -36,6 +36,8 @@ if ( ! defined( 'WPINC' )) {
 
 /**
  * Loading the core class of our plugin, located in Plugin.php
+ * TODO: fix a __autoload function
  */
 require plugin_dir_path( __FILE__ ) . 'Plugin.php';
+// creating an instance of our plugin
 $plugin = new Plugin();

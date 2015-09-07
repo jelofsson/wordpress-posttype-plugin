@@ -8,6 +8,7 @@
  *
  * LICENSE: http://opensource.org/licenses/MIT
  *
+ * @since      Version 1.0.0
  * @category   WP_Plugin
  * @package    Portfolio_Widget_Plugin
  * @subpackage Portfolio_Widget_Plugin/Plugin
@@ -15,7 +16,6 @@
  * @license    http://opensource.org/licenses/MIT   MIT License
  * @version    $Id:$
  * @link       https://github.com/jelofsson
- * @since      Version 1.0.0
  *
  */
 
@@ -50,18 +50,27 @@ class Plugin extends WP_Widget
 	 *
 	 * @since  1.0.0
 	 * @access protected
-	 * @var    string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var    string    $name    The string used to name this plugin.
 	 */
-	protected $plugin_name;
+	public $name;
     
     /**
 	 * The unique identifier of this plugin.
 	 *
 	 * @since  1.0.0
 	 * @access protected
-	 * @var    string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var    string    $identifier    The string used to uniquely identify this plugin.
 	 */
-	protected $plugin_identifier;
+	protected $identifier;
+    
+    /**
+	 * post-type object used in this plugin.
+	 *
+	 * @since  1.0.0
+	 * @access protected
+	 * @var    PostType    $postType    Object used for post-type handling in this plugin.
+	 */
+	protected $postType;
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -71,21 +80,38 @@ class Plugin extends WP_Widget
 	 * the public-facing side of the site.
 	 *
 	 * @since    1.0.0
+     * @param postType $postType
 	 */
     public function __construct() 
     {
-        $this->version = '1.0.0';
-        $this->plugin_name = 'Portfolio Widget Plugin';
-        $this->plugin_identifier = urlencode($this->plugin_name);
+        $this->version    = '1.0.0';
+        $this->name       = 'Portfolio Widget Plugin';
+        $this->identifier = urlencode($this->name);
+        $this->postType   = $this->loadPostType('portfolio', 'Portfolios', 'Portfolio');
         
         parent::WP_Widget(false, $name = __(
-            $this->plugin_name,
-            $this->plugin_identifier
+            $this->name,
+            $this->identifier
         ));
         
-        $this->define_widget_hooks();
-        $this->define_posttype_hooks();
+        $this->defineWidgetHooks();
 	}
+    
+    /**
+     * Create a new instance of a post-type.
+     *
+     * @since 1.0.0
+     * @param string $identifier
+     * @param string $name
+     * @param string $nameSingular
+     *
+     * @return PostType
+     */
+    private function loadPostType($identifier, $name, $nameSingular)
+    {
+        require_once plugin_dir_path( __FILE__ ) . '/Includes/Classes/PostType.php';
+        return new PostType($identifier, $name, $nameSingular);
+    }
 
 	/**
      * Create the widget form in the administration
@@ -98,7 +124,7 @@ class Plugin extends WP_Widget
         // check value
         $number = ($instance) ? esc_attr($instance['number']) : 5;
         // output form
-        include( plugin_dir_path( __FILE__ ) . 'Admin/View/Form.php');
+        include( plugin_dir_path( __FILE__ ) . 'Includes/Templates/Form.php');
 	}
 
 	/**
@@ -134,11 +160,11 @@ class Plugin extends WP_Widget
         // widget options
         $number = ( ! empty($instance['number'])) ? 
                       absint($instance['number']) : 5;
-        
+
         // widget query
         $p = new WP_Query( apply_filters('widget_posts_args', 
                                          array('posts_per_page' => $number, 
-                                               'post_type' => 'portfolio',
+                                               'post_type' => $this->postType->__get('identifier'),
                                                'no_found_rows' => true, 
                                                'post_status' => 'publish', 
                                                'ignore_sticky_posts' => true
@@ -149,8 +175,9 @@ class Plugin extends WP_Widget
             // each post
             while($p->have_posts()) {
                 $p->the_post();
-                // Display the post
-                include( plugin_dir_path( __FILE__ ) . 'Public/View/WidgetPost.php');    
+                // display the post
+                include( plugin_dir_path( __FILE__ ) . 
+                        'Includes/Templates/WidgetPost.php');
             }
             echo $after_widget;
         }
@@ -162,34 +189,11 @@ class Plugin extends WP_Widget
      * @since  1.0.0
      * @access private
      */
-    private function define_widget_hooks()
+    private function defineWidgetHooks()
     {
         add_action('widgets_init', function() {
             register_widget(__CLASS__);
         });
 
-    }
-    
-    /**
-     * Create our new post_type on WordPress init
-     *
-     * @since  1.0.0
-     * @access private
-     */    
-    private function define_posttype_hooks()
-    {
-
-        add_action('init', function() {
-            register_post_type( 'portfolio',
-                array(
-                    'labels' => array(
-                    'name' => __( 'Portfolios' ),
-                    'singular_name' => __( 'Portfolio' )
-                ),
-                    'public' => true,
-                    'has_archive' => true,
-                )
-            );
-        });
     }
 }

@@ -6,7 +6,7 @@
  *
  * @category   WP_Plugin
  * @package    Portfolio_Widget_Plugin
- * @subpackage Portfolio_Widget_Plugin/Admin/View
+ * @subpackage Portfolio_Widget_Plugin/Includes/Templates
  * @copyright  Copyright (c) 2015 Jimmi Elofsson <contact@jimmi.eu>
  * @license    http://opensource.org/licenses/MIT   MIT License
  * @version    $Id:$
@@ -15,7 +15,9 @@
  *
  */
 ?>
-<p>
-    <label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of posts to show:' ); ?></label>
-    <input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" />
-</p>
+<div>
+    <h2><?php the_title(); ?></h2>
+    <p>
+        <?php the_excerpt() ?>
+    </p>
+</div>
