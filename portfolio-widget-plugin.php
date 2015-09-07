@@ -11,33 +11,41 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
 class Portfolio_widget_plugin extends WP_Widget {
 
-	/*
-    * Constructor
-    */
+	/**
+     * Constructor
+     */
     function __construct() 
     {
         parent::WP_Widget(false, $name = __('Portfolio Widget Plugin', 'portfolio_widget_plugin'));
 	}
 
-	/*
-    * Create the widget form in the administration
-    */
+	/**
+     * Create the widget form in the administration
+     */
 	function form($instance) 
     {	
-	   /* ... */
+        // Check value
+        $number = ($instance) ? esc_attr($instance['number']) : 5;
+        // Output form
+        include('views/form.php');
 	}
 
-	/*
-    * Save widget data during edition
-    */
+	/**
+     * Save widget data during edition
+     */
 	function update($new_instance, $old_instance) 
     {
-		/* ... */
+        // Get old instance
+		$instance = $old_instance;
+        // Set instance value
+        $instance['number'] = strip_tags($new_instance['number']);
+
+        return $instance;
 	}
 
-	/*
-    * Display the widget content on the front-end
-    */
+	/**
+     * Display the widget content on the front-end
+     */
 	function widget($args, $instance) 
     {
 		/* ... */
@@ -45,14 +53,14 @@ class Portfolio_widget_plugin extends WP_Widget {
 }
 
 
-/*
-* Register our widget when widgets init
-*/
+/**
+ * Register our widget when widgets init
+ */
 add_action('widgets_init', create_function('', 'return register_widget("portfolio_widget_plugin");'));
 
-/*
-* Create our new post type when we init
-*/
+/**
+ * Create our new post type when we init
+ */
 add_action( 'init', 'create_post_type' );
 function create_post_type() {
     register_post_type( 'pwp_portfolio',
