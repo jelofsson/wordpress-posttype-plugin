@@ -3,8 +3,8 @@
 /**
  * The file that defines the post-type class
  *
- * A class definition that includes attributes and functions used to
- * implement a custom post-type in WordPress.
+ * A class definition that contains attributes and functions, used 
+ * to implement and control a custom WordPress post-type.
  *
  * LICENSE: http://opensource.org/licenses/MIT
  *

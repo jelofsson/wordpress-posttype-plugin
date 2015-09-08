@@ -91,9 +91,11 @@ class Plugin extends WP_Widget
         $postTypeIdentifier   = 'custom-posts';
         $postTypeName         = 'Custom Posts';
         $postTypeNameSingular = 'Custom Post';
-        $this->_postType      = $this->_loadPostType($postTypeIdentifier, 
-                                                     $postTypeName, 
-                                                     $postTypeNameSingular);
+        $this->_postType      = new Includes_Classes_PostType(
+                                    $postTypeIdentifier, 
+                                    $postTypeName, 
+                                    $postTypeNameSingular
+        );
         
         // instantiate the parent object
         parent::WP_Widget(false, $name = __(
@@ -103,30 +105,6 @@ class Plugin extends WP_Widget
         
         $this->_defineWidgetHooks();
 	}
-    
-    /**
-     * Create a new instance of a post-type class
-     *
-     * This function creates a new PostType object and returns it to 
-     * the caller.
-     *
-     * @since 1.0.0
-     * @access private
-     * @param string $identifier
-     * @param string $name
-     * @param string $nameSingular
-     *
-     * @return PostType
-     */
-    private function _loadPostType($identifier, 
-        $name, $nameSingular, $args=Array()
-    ) {
-        require_once plugin_dir_path( __FILE__ ) . 
-                     '/Includes/Classes/PostType.php';
-        
-        return new Includes_Classes_PostType($identifier, $name, 
-                                             $nameSingular, $args);
-    }
 
 	/**
      * Create the widget form in the administration

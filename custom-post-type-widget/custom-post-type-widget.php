@@ -35,9 +35,11 @@ if ( ! defined( 'WPINC' )) {
 }
 
 /**
- * Loading the core class of our plugin, located in Plugin.php
+ * Loading the core class of our plugin, and its dependencies.
  * TODO: fix a __autoload function
  */
 require plugin_dir_path( __FILE__ ) . 'Plugin.php';
+require plugin_dir_path( __FILE__ ) . '/Includes/Classes/PostType.php';
+
 // creating an instance of our plugin
 $plugin = new Plugin();
