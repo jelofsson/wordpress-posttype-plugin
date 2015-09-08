@@ -10,8 +10,8 @@
  *
  * @since      Version 1.0.0
  * @category   WP_Plugin
- * @package    Portfolio_Widget_Plugin
- * @subpackage Portfolio_Widget_Plugin/Plugin
+ * @package    CustomPostType_Widget
+ * @subpackage CustomPostType_Widget/Plugin
  * @copyright  Copyright (c) 2015 Jimmi Elofsson <contact@jimmi.eu>
  * @license    http://opensource.org/licenses/MIT   MIT License
  * @version    $Id:$
@@ -29,8 +29,8 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    Portfolio_Widget_Plugin
- * @subpackage Portfolio_Widget_Plugin/Plugin
+ * @package    CustomPostType_Widget
+ * @subpackage CustomPostType_Widget/Plugin
  * @author     Your Name <email@example.com>
  */
 class Plugin extends WP_Widget 
@@ -85,10 +85,18 @@ class Plugin extends WP_Widget
     public function __construct() 
     {
         $this->version    = '1.0.0';
-        $this->name       = 'Portfolio Widget Plugin';
+        $this->name       = 'Custom Post Type Widget';
         $this->identifier = urlencode($this->name);
-        $this->postType   = $this->loadPostType('portfolio', 'Portfolios', 'Portfolio');
         
+        $postTypeIdentifier   = 'custom-posts';
+        $postTypeName         = 'Custom Posts';
+        $postTypeNameSingular = 'Custom Post';
+        $this->postType   = $this->loadPostType($postTypeIdentifier, 
+                                                $postTypeName, 
+                                                $postTypeNameSingular
+        );
+        
+        // instantiate the parent object
         parent::WP_Widget(false, $name = __(
             $this->name,
             $this->identifier
@@ -101,6 +109,7 @@ class Plugin extends WP_Widget
      * Create a new instance of a post-type.
      *
      * @since 1.0.0
+     * @access private
      * @param string $identifier
      * @param string $name
      * @param string $nameSingular
@@ -164,12 +173,14 @@ class Plugin extends WP_Widget
         // widget query
         $p = new WP_Query( apply_filters('widget_posts_args', 
                                          array('posts_per_page' => $number, 
-                                               'post_type' => $this->postType->__get('identifier'),
+                                               'post_type' => 
+                                               $this->postType->__get('identifier'),
                                                'no_found_rows' => true, 
                                                'post_status' => 'publish', 
                                                'ignore_sticky_posts' => true
         )));
         
+        // the loop
         if ($p->have_posts()) {
             echo $before_widget;
             // each post

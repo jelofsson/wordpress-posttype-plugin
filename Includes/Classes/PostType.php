@@ -10,8 +10,8 @@
  *
  * @since      Version 1.0.0
  * @category   WP_Plugin
- * @package    Portfolio_Widget_Plugin
- * @subpackage Portfolio_Widget_Plugin/Classes/PostType
+ * @package    CustomPostType_Widget
+ * @subpackage CustomPostType_Widget/Classes/PostType
  * @copyright  Copyright (c) 2015 Jimmi Elofsson <contact@jimmi.eu>
  * @license    http://opensource.org/licenses/MIT   MIT License
  * @version    $Id:$
@@ -26,8 +26,8 @@
  * public-facing site hooks for a custom post-type.
  *
  * @since      1.0.0
- * @package    Portfolio_Widget_Plugin
- * @subpackage Portfolio_Widget_Plugin/Classes/PostType
+ * @package    CustomPostType_Widget
+ * @subpackage CustomPostType_Widget/Classes/PostType
  * @author     Your Name <email@example.com>
  */
 class PostType
@@ -87,7 +87,7 @@ class PostType
         $this->name         = $name;
         $this->nameSingular = $nameSingular;
         $this->identifier   = urlencode($identifier);
-        $this->args         = $args;
+        $this->args         = is_array($args) ? $args : array();
         
         $this->definePosttypeHooks();
 	}   

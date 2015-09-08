@@ -5,8 +5,8 @@
  * LICENSE: http://opensource.org/licenses/MIT
  *
  * @category   WP_Plugin
- * @package    Portfolio_Widget_Plugin
- * @subpackage Portfolio_Widget_Plugin/Includes/Templates
+ * @package    CustomPostType_Widget
+ * @subpackage CustomPostType_Widget/Includes/Templates
  * @copyright  Copyright (c) 2015 Jimmi Elofsson <contact@jimmi.eu>
  * @license    http://opensource.org/licenses/MIT   MIT License
  * @version    $Id:$

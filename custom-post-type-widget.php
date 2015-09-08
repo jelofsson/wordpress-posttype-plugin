@@ -10,8 +10,8 @@
  * LICENSE: http://opensource.org/licenses/MIT
  *
  * @category   WP_Plugin
- * @package    Portfolio_Widget_Plugin
- * @subpackage Portfolio_Widget_Plugin/Bootstrap
+ * @package    CustomPostType_Widget
+ * @subpackage CustomPostType_Widget/Bootstrap
  * @copyright  Copyright (c) 2015 Jimmi Elofsson <contact@jimmi.eu>
  * @license    http://opensource.org/licenses/MIT   MIT License
  * @version    $Id:$
@@ -19,8 +19,8 @@
  * @since      Version 1.0.0
  *
  * @wordpress-plugin
- * Plugin Name: Portfolio Widget Plugin
- * Description: Publish and display portfolio items
+ * Plugin Name: Custom Post Type Widget
+ * Description: Create custom posts and display them trough a widget
  * Version: 1.0.0
  * Author: Jimmi Elofsson
  * Author URI: http://www.jimmi.eu/
