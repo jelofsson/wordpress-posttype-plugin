@@ -3,9 +3,9 @@
 /**
  * The plugin bootstrap file
  *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * and creates a instance of the core plugin class.
+ * This file is read by WordPress to generate the plugin information in the
+ * plugin admin area. This file also includes all of the dependencies used by
+ * the plugin, and creates a instance of the core plugin class.
  *
  * LICENSE: http://opensource.org/licenses/MIT
  *

@@ -30,7 +30,7 @@
  * @subpackage CustomPostType_Widget/Classes/PostType
  * @author     Your Name <email@example.com>
  */
-class PostType
+class Includes_Classes_PostType
 {
     
     /**
@@ -40,25 +40,25 @@ class PostType
 	 * @access protected
 	 * @var    string    $name    The string used to name this post-type.
 	 */
-    protected $name;
+    protected $_name;
         
     /**
 	 * The name in singular of this post_type.
 	 *
 	 * @since  1.0.0
 	 * @access protected
-	 * @var    string    $name    The string used to name (singular) this post-type.
+	 * @var    string    $name    String used to name (singular) post-type.
 	 */
-    protected $nameSingular;
+    protected $_nameSingular;
     
     /**
 	 * The unique identifier of the post_type.
 	 *
 	 * @since  1.0.0
 	 * @access protected
-	 * @var    string    $identifier    The string used to uniquely identify the post-type.
+	 * @var    string    $identifier    String used to identify the post-type.
 	 */
-    protected $identifier;
+    protected $_identifier;
     
     /**
 	 * Additional arguments for the post_type.
@@ -67,14 +67,14 @@ class PostType
 	 * @access protected
 	 * @var    string    $args    arguments for the post-type.
 	 */
-    protected $args;
+    protected $_args;
         
 	/**
 	 * Define the core functionality of the plugin.
 	 *
-	 * Set the plugin name and the plugin version that can be used throughout the plugin.
-	 * Load the dependencies, define the locale, and set the hooks for the admin area and
-	 * the public-facing side of the site.
+	 * Set the plugin name and the plugin version that can be used throughout 
+     * the plugin. Load the dependencies, define the locale, and set the hooks
+     * for the admin area and the public-facing side of the site.
 	 *
 	 * @since    1.0.0
      * @param string $identifier
@@ -82,47 +82,49 @@ class PostType
      * @param string $nameSingular
      * @param array  $args          Optional array of arguments
 	 */
-    public function __construct($identifier, $name, $nameSingular, $args=Array()) 
-    {
-        $this->name         = $name;
-        $this->nameSingular = $nameSingular;
-        $this->identifier   = urlencode($identifier);
-        $this->args         = is_array($args) ? $args : array();
+    public function __construct($identifier, $name, 
+        $nameSingular, $args=Array()
+    ) {
+        $this->_name         = $name;
+        $this->_nameSingular = $nameSingular;
+        $this->_identifier   = urlencode($identifier);
+        $this->_args         = is_array($args) ? $args : array();
         
-        $this->definePosttypeHooks();
+        $this->_definePosttypeHooks();
 	}   
         
     /**
      * Register our post_type on WordPress init
      *
-     * This function creates a hook so that WordPress can recognize our post_type.
+     * This function creates a hook so that WordPress can recognize our 
+     * post_type.
      *
      * @since  1.0.0
      * @access private
      */    
-    private function definePosttypeHooks()
+    private function _definePosttypeHooks()
     {   
         add_action('init', function() {
             
             $defaultPosttypeArgs = array(
-                'labels' => array(
-                    'name' => __($this->name),
-                    'singular_name' => __($this->nameSingular)
+                'labels'      => array(
+                    'name'          => __($this->_name),
+                    'singular_name' => __($this->_nameSingular),
                 ),
-                'supports' => array(
+                'supports'    => array(
                     'title',
                     'excerpt',
                     'editor',
-                    'thumbnail'
+                    'thumbnail',
                 ),
-                'public' => true,
-                'has_archive' => true
+                'public'      => true,
+                'has_archive' => true,
             );
             
             // merge default with arguments passed in constructor
-            $args = array_merge($defaultPosttypeArgs, $this->args);
+            $args = array_merge($defaultPosttypeArgs, $this->_args);
             
-            register_post_type($this->identifier, $args);
+            register_post_type($this->_identifier, $args);
         });
     }
     
@@ -131,21 +133,23 @@ class PostType
      *
      * @since 1.0.0
      * @return mixed
+     * @throws E_USER_NOTICE    if property not accessible via get
      */
-    public function __get($name)
+    public function get($name)
     {
         switch($name) {
             case 'identifier':
-                return $this->identifier;
+                return $this->_identifier;
                 break;
             default:
                 $trace = debug_backtrace();
-                    trigger_error(
-                        'Undefined property via __get(): ' . $name .
-                        ' in ' . $trace[0]['file'] .
-                        ' on line ' . $trace[0]['line'],
-                        E_USER_NOTICE);
-                    return null;
+                trigger_error(
+                    'Undefined property via get(): ' . $name
+                    . ' in ' . $trace[0]['file']
+                    . ' on line ' . $trace[0]['line'],
+                    E_USER_NOTICE
+                );
+                return null;
                 break;
         }
     }

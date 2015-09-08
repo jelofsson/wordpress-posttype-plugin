@@ -3,8 +3,8 @@
 /**
  * The file that defines the core plugin class
  *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the admin area.
+ * A class definition that includes attributes and functions used across 
+ * both the public-facing side of the site and the admin area.
  *
  * LICENSE: http://opensource.org/licenses/MIT
  *
@@ -33,7 +33,7 @@
  * @subpackage CustomPostType_Widget/Plugin
  * @author     Your Name <email@example.com>
  */
-class Plugin extends WP_Widget 
+class Plugin extends WP_Widget
 {
     
 	/**
@@ -43,7 +43,7 @@ class Plugin extends WP_Widget
 	 * @access protected
 	 * @var    string    $version    The current version of the plugin.
 	 */
-	protected $version;
+	protected $_version;
     
     /**
 	 * The name of this plugin.
@@ -55,61 +55,60 @@ class Plugin extends WP_Widget
 	public $name;
     
     /**
-	 * The unique identifier of this plugin.
+	 * The string used to uniquely identify this plugin.
 	 *
 	 * @since  1.0.0
 	 * @access protected
-	 * @var    string    $identifier    The string used to uniquely identify this plugin.
+	 * @var    string    $identifier    The unique identifier of this plugin.
 	 */
-	protected $identifier;
+	protected $_identifier;
     
     /**
-	 * post-type object used in this plugin.
+	 * Used for post-type handing in this plugin.
 	 *
 	 * @since  1.0.0
 	 * @access protected
-	 * @var    PostType    $postType    Object used for post-type handling in this plugin.
+	 * @var    PostType    $postType    Used for post-type in this plugin.
 	 */
-	protected $postType;
+	protected $_postType;
 
 	/**
 	 * Define the core functionality of the plugin.
 	 *
-	 * Set the plugin name and the plugin version that can be used throughout the plugin.
-	 * Load the dependencies, define the locale, and set the hooks for the admin area and
-	 * the public-facing side of the site.
+	 * Set the plugin name and the plugin version that can be used throughout 
+     * the plugin. Load the dependencies, define the locale, and set the hooks
+     * for the admin area and the public-facing side of the site.
 	 *
 	 * @since    1.0.0
-     * @param postType $postType
 	 */
     public function __construct() 
     {
-        $this->version    = '1.0.0';
-        $this->name       = 'Custom Post Type Widget';
-        $this->identifier = urlencode($this->name);
+        $this->_version    = '1.0.0';
+        $this->name        = 'Custom Post Type Widget';
+        $this->_identifier = urlencode($this->name);
         
         // create custom post-type using our PostType Class
         $postTypeIdentifier   = 'custom-posts';
         $postTypeName         = 'Custom Posts';
         $postTypeNameSingular = 'Custom Post';
-        $this->postType   = $this->loadPostType($postTypeIdentifier, 
-                                                $postTypeName, 
-                                                $postTypeNameSingular
-        );
+        $this->_postType      = $this->_loadPostType($postTypeIdentifier, 
+                                                     $postTypeName, 
+                                                     $postTypeNameSingular);
         
         // instantiate the parent object
         parent::WP_Widget(false, $name = __(
             $this->name,
-            $this->identifier
+            $this->_identifier
         ));
         
-        $this->defineWidgetHooks();
+        $this->_defineWidgetHooks();
 	}
     
     /**
      * Create a new instance of a post-type class
      *
-     * This function creates a new PostType object and returns it to the caller.
+     * This function creates a new PostType object and returns it to 
+     * the caller.
      *
      * @since 1.0.0
      * @access private
@@ -119,10 +118,14 @@ class Plugin extends WP_Widget
      *
      * @return PostType
      */
-    private function loadPostType($identifier, $name, $nameSingular, $args=Array())
-    {
-        require_once plugin_dir_path( __FILE__ ) . '/Includes/Classes/PostType.php';
-        return new PostType($identifier, $name, $nameSingular, $args);
+    private function _loadPostType($identifier, 
+        $name, $nameSingular, $args=Array()
+    ) {
+        require_once plugin_dir_path( __FILE__ ) . 
+                     '/Includes/Classes/PostType.php';
+        
+        return new Includes_Classes_PostType($identifier, $name, 
+                                             $nameSingular, $args);
     }
 
 	/**
@@ -174,13 +177,12 @@ class Plugin extends WP_Widget
                       absint($instance['number']) : 5;
 
         // widget query
-        $p = new WP_Query( apply_filters('widget_posts_args', 
-                                         array('posts_per_page' => $number, 
-                                               'post_type' => 
-                                               $this->postType->__get('identifier'),
-                                               'no_found_rows' => true, 
-                                               'post_status' => 'publish', 
-                                               'ignore_sticky_posts' => true
+        $p = new WP_Query(apply_filters('widget_posts_args', array(
+            'posts_per_page'      => $number,
+            'post_type'           => $this->_postType->get('identifier'),
+            'no_found_rows'       => true,
+            'post_status'         => 'publish',
+            'ignore_sticky_posts' => true,
         )));
         
         // the loop
@@ -205,7 +207,7 @@ class Plugin extends WP_Widget
      * @since  1.0.0
      * @access private
      */
-    private function defineWidgetHooks()
+    private function _defineWidgetHooks()
     {
         add_action('widgets_init', function() {
             register_widget(__CLASS__);
