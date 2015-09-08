@@ -88,6 +88,7 @@ class Plugin extends WP_Widget
         $this->name       = 'Custom Post Type Widget';
         $this->identifier = urlencode($this->name);
         
+        // create custom post-type using our PostType Class
         $postTypeIdentifier   = 'custom-posts';
         $postTypeName         = 'Custom Posts';
         $postTypeNameSingular = 'Custom Post';
@@ -106,7 +107,9 @@ class Plugin extends WP_Widget
 	}
     
     /**
-     * Create a new instance of a post-type.
+     * Create a new instance of a post-type class
+     *
+     * This function creates a new PostType object and returns it to the caller.
      *
      * @since 1.0.0
      * @access private

@@ -127,9 +127,10 @@ class PostType
     }
     
     /**
-     * Get data form inaccessible properties.
+     * Get value from private properties.
      *
      * @since 1.0.0
+     * @return mixed
      */
     public function __get($name)
     {
