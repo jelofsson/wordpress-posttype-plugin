@@ -107,10 +107,10 @@ class Plugin extends WP_Widget
      *
      * @return PostType
      */
-    private function loadPostType($identifier, $name, $nameSingular)
+    private function loadPostType($identifier, $name, $nameSingular, $args=Array())
     {
         require_once plugin_dir_path( __FILE__ ) . '/Includes/Classes/PostType.php';
-        return new PostType($identifier, $name, $nameSingular);
+        return new PostType($identifier, $name, $nameSingular, $args);
     }
 
 	/**
@@ -185,6 +185,8 @@ class Plugin extends WP_Widget
     
     /**
      * Register our widget on WordPress widgets_init
+     *
+     * This function creates a hook so that WordPress can recognize our widget.
      *
      * @since  1.0.0
      * @access private

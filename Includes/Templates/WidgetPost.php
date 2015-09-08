@@ -20,4 +20,9 @@
     <p>
         <?php the_excerpt() ?>
     </p>
+    <p>
+        <?php if ( ( function_exists('has_post_thumbnail') ) && ( has_post_thumbnail() ) ) :  ?>
+            <?php the_post_thumbnail( 'full' ); ?>
+        <?php endif; ?>
+    </p>
 </div>

@@ -59,6 +59,15 @@ class PostType
 	 * @var    string    $identifier    The string used to uniquely identify the post-type.
 	 */
     protected $identifier;
+    
+    /**
+	 * Additional arguments for the post_type.
+	 *
+	 * @since  1.0.0
+	 * @access protected
+	 * @var    string    $args    arguments for the post-type.
+	 */
+    protected $args;
         
 	/**
 	 * Define the core functionality of the plugin.
@@ -71,40 +80,54 @@ class PostType
      * @param string $identifier
      * @param string $name
      * @param string $nameSingular
+     * @param array  $args          Optional array of arguments
 	 */
-    public function __construct($identifier, $name, $nameSingular) 
+    public function __construct($identifier, $name, $nameSingular, $args=Array()) 
     {
         $this->name         = $name;
         $this->nameSingular = $nameSingular;
         $this->identifier   = urlencode($identifier);
+        $this->args         = $args;
         
         $this->definePosttypeHooks();
 	}   
         
     /**
-     * Create our new post_type on WordPress init
+     * Register our post_type on WordPress init
+     *
+     * This function creates a hook so that WordPress can recognize our post_type.
      *
      * @since  1.0.0
      * @access private
      */    
     private function definePosttypeHooks()
-    {
+    {   
         add_action('init', function() {
-            register_post_type( $this->identifier,
-                array(
-                    'labels' => array(
-                    'name' => __( $this->name ),
-                    'singular_name' => __( $this->nameSingular )
+            
+            $defaultPosttypeArgs = array(
+                'labels' => array(
+                    'name' => __($this->name),
+                    'singular_name' => __($this->nameSingular)
                 ),
-                    'public' => true,
-                    'has_archive' => true,
-                )
+                'supports' => array(
+                    'title',
+                    'excerpt',
+                    'editor',
+                    'thumbnail'
+                ),
+                'public' => true,
+                'has_archive' => true
             );
+            
+            // merge default with arguments passed in constructor
+            $args = array_merge($defaultPosttypeArgs, $this->args);
+            
+            register_post_type($this->identifier, $args);
         });
     }
     
     /**
-     * Reading data form inaccessible properties.
+     * Get data form inaccessible properties.
      *
      * @since 1.0.0
      */
