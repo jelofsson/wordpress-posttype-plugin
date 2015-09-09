@@ -31,7 +31,7 @@
  * @since      1.0.0
  * @package    CustomPostType_Widget
  * @subpackage CustomPostType_Widget/Plugin
- * @author     Your Name <email@example.com>
+ * @author     Jimmi Elofsson <contact@jimmi.eu>
  */
 class Plugin extends WP_Widget
 {
@@ -49,7 +49,7 @@ class Plugin extends WP_Widget
 	 * The name of this plugin.
 	 *
 	 * @since  1.0.0
-	 * @access protected
+	 * @access public
 	 * @var    string    $name    The string used to name this plugin.
 	 */
 	public $name;

@@ -28,7 +28,7 @@
  * @since      1.0.0
  * @package    CustomPostType_Widget
  * @subpackage CustomPostType_Widget/Classes/PostType
- * @author     Your Name <email@example.com>
+ * @author     Jimmi Elofsson <contact@jimmi.eu>
  */
 class Includes_Classes_PostType
 {
